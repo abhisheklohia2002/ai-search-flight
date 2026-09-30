@@ -1,0 +1,18 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+      args:
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL}
+        NEXT_PUBLIC_FLIGHT360_BASE_URL: ${NEXT_PUBLIC_FLIGHT360_BASE_URL}
+
+    image: flight360-ai-frontend:latest
+
+    container_name: flight360_ai_frontend
+
+    restart: unless-stopped
+
+    ports:
+      - "8081:3000"

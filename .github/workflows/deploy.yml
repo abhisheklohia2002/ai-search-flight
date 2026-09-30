@@ -1,0 +1,68 @@
+name: Deploy Frontend
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  IMAGE_NAME: ghcr.io/${{ github.repository }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+
+      - name: Build and push frontend
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+
+          build-args: |
+            NEXT_PUBLIC_API_BASE_URL=
+            NEXT_PUBLIC_FLIGHT360_BASE_URL=https://flight360-pc4y8.ondigitalocean.app
+
+          tags: |
+            ${{ env.IMAGE_NAME }}:latest
+            ${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+
+          echo "${{ secrets.SERVER_SSH_KEY }}" \
+            > ~/.ssh/id_ed25519
+
+          chmod 600 ~/.ssh/id_ed25519
+
+          ssh-keyscan -H \
+            "${{ secrets.SERVER_HOST }}" \
+            >> ~/.ssh/known_hosts
+
+
+      - name: Deploy frontend
+        run: |
+          ssh \
+            "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}" \
+            "cd /opt/flight360 && \
+             docker compose pull frontend && \
+             docker compose up -d frontend && \
+             docker image prune -f"
