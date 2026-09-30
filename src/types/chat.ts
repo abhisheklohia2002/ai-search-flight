@@ -19,18 +19,18 @@ export interface Airline {
 export interface FlightOption {
   id: string;
 
+  resultIndex?: string;
+  fareBrand?: string;
+  isLcc?: boolean;
+  reviewUrl?: string;
+
   airline: Airline;
-
   flightNumber: string;
-
   origin: string;
   destination: string;
-
   departureTime: string;
   arrivalTime: string;
-
   durationMinutes: number;
-
   stops: number;
   via: string[];
 
@@ -40,10 +40,7 @@ export interface FlightOption {
   };
 
   refundable: boolean;
-
   seatsLeft?: number | null;
-
-  reviewUrl?: string;
 }
 
 export interface FlightSearchSummary {

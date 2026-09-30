@@ -5,40 +5,24 @@ import {
   UsersRound,
 } from "lucide-react";
 
-import {
-  formatClock,
-  formatCurrency,
-  formatDuration,
-} from "@/lib/format";
+import { formatClock, formatCurrency, formatDuration } from "@/lib/format";
 
-import {
-  buildFlightSearchUrl,
-} from "@/lib/build-flight-search-url";
+import { buildFlightSearchUrl } from "@/lib/build-flight-search-url";
 
-import type {
-  FlightOption,
-  FlightSearchSummary,
-} from "@/types/chat";
+import type { FlightOption, FlightSearchSummary } from "@/types/chat";
 
 interface FlightCardProps {
   flight: FlightOption;
   search?: FlightSearchSummary;
 }
 
-export function FlightCard({
-  flight,
-  search,
-}: FlightCardProps) {
-  const searchUrl = search
-    ? buildFlightSearchUrl(search)
-    : null;
+export function FlightCard({ flight, search }: FlightCardProps) {
+  const searchUrl = search ? buildFlightSearchUrl(search) : null;
 
   const stopLabel =
     flight.stops === 0
       ? "Direct"
-      : `${flight.stops} stop${
-          flight.stops > 1 ? "s" : ""
-        }`;
+      : `${flight.stops} stop${flight.stops > 1 ? "s" : ""}`;
 
   const content = (
     <article
@@ -85,9 +69,7 @@ export function FlightCard({
                 className="h-9 w-9 object-contain"
               />
             ) : (
-              <PlaneTakeoff
-                className="h-5 w-5 text-slate-600"
-              />
+              <PlaneTakeoff className="h-5 w-5 text-slate-600" />
             )}
           </div>
 
@@ -124,10 +106,7 @@ export function FlightCard({
               sm:text-2xl
             "
           >
-            {formatCurrency(
-              flight.price.amount,
-              flight.price.currency
-            )}
+            {formatCurrency(flight.price.amount, flight.price.currency)}
           </p>
 
           <p
@@ -163,9 +142,7 @@ export function FlightCard({
               sm:text-2xl
             "
           >
-            {formatClock(
-              flight.departureTime
-            )}
+            {formatClock(flight.departureTime)}
           </p>
 
           <p
@@ -191,9 +168,7 @@ export function FlightCard({
               sm:text-xs
             "
           >
-            {formatDuration(
-              flight.durationMinutes
-            )}
+            {formatDuration(flight.durationMinutes)}
           </p>
 
           <div className="flex items-center">
@@ -248,9 +223,7 @@ export function FlightCard({
               sm:text-2xl
             "
           >
-            {formatClock(
-              flight.arrivalTime
-            )}
+            {formatClock(flight.arrivalTime)}
           </p>
 
           <p
@@ -296,17 +269,12 @@ export function FlightCard({
             }
           `}
         >
-          <CheckCircle2
-            className="h-3.5 w-3.5"
-          />
+          <CheckCircle2 className="h-3.5 w-3.5" />
 
-          {flight.refundable
-            ? "Refundable"
-            : "Non-refundable"}
+          {flight.refundable ? "Refundable" : "Non-refundable"}
         </span>
 
-        {typeof flight.seatsLeft ===
-          "number" && (
+        {typeof flight.seatsLeft === "number" && (
           <span
             className="
               inline-flex
@@ -319,15 +287,9 @@ export function FlightCard({
               text-amber-800
             "
           >
-            <UsersRound
-              className="h-3.5 w-3.5"
-            />
-
+            <UsersRound className="h-3.5 w-3.5" />
             {flight.seatsLeft} seat
-            {flight.seatsLeft === 1
-              ? ""
-              : "s"}{" "}
-            left
+            {flight.seatsLeft === 1 ? "" : "s"} left
           </span>
         )}
 
@@ -343,15 +305,13 @@ export function FlightCard({
             "
           >
             View flights
-            <ArrowRight
-              className="h-3.5 w-3.5"
-            />
+            <ArrowRight className="h-3.5 w-3.5" />
           </span>
         )}
       </div>
 
       <div
-  className="
+        className="
     mt-4
     flex
     items-center
@@ -361,38 +321,27 @@ export function FlightCard({
     border-slate-100
     pt-4
   "
->
-  {flight.reviewUrl && (
-    <a
-      href={flight.reviewUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="
-        inline-flex
-        min-h-11
-        items-center
-        justify-center
-        gap-2
-        rounded-xl
-        bg-slate-950
-        px-5
-        text-sm
-        font-bold
-        text-white
-        shadow-sm
-        transition
-        hover:-translate-y-0.5
-        hover:bg-cyan-900
-        hover:shadow-md
-        active:scale-[0.98]
-      "
-    >
-      Book now
-
-      <ArrowRight className="h-4 w-4" />
-    </a>
-  )}
-</div>
+      >
+        {/* <a
+          href={flight.reviewUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="
+    inline-flex
+    min-h-11
+    items-center
+    justify-center
+    rounded-xl
+    bg-slate-950
+    px-5
+    text-sm
+    font-bold
+    text-white
+  "
+        >
+          Book now
+        </a> */}
+      </div>
     </article>
   );
 
@@ -414,10 +363,7 @@ export function FlightCard({
       "
       aria-label={`Open flight search from ${
         search?.origin ?? flight.origin
-      } to ${
-        search?.destination ??
-        flight.destination
-      }`}
+      } to ${search?.destination ?? flight.destination}`}
     >
       {content}
     </a>
