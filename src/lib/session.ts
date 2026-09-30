@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 const SESSION_KEY = "flight360-session-id";
 
 export function getOrCreateSessionId(): string {
@@ -5,12 +7,19 @@ export function getOrCreateSessionId(): string {
     return "";
   }
 
-  const existing = window.sessionStorage.getItem(SESSION_KEY);
-  if (existing) {
-    return existing;
+  const existingSessionId =
+    sessionStorage.getItem(SESSION_KEY);
+
+  if (existingSessionId) {
+    return existingSessionId;
   }
 
-  const next = crypto.randomUUID();
-  window.sessionStorage.setItem(SESSION_KEY, next);
-  return next;
+  const newSessionId = uuidv4();
+
+  sessionStorage.setItem(
+    SESSION_KEY,
+    newSessionId
+  );
+
+  return newSessionId;
 }
