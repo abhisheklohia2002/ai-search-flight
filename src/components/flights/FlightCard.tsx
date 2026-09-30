@@ -362,30 +362,6 @@ export function FlightCard({
     pt-4
   "
 >
-  {searchUrl ? (
-    <a
-      href={searchUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="
-        inline-flex
-        items-center
-        gap-1.5
-        text-sm
-        font-bold
-        text-slate-500
-        transition
-        hover:text-cyan-800
-      "
-    >
-      View search
-
-      <ArrowRight className="h-4 w-4" />
-    </a>
-  ) : (
-    <span />
-  )}
-
   {flight.reviewUrl && (
     <a
       href={flight.reviewUrl}
